@@ -15,14 +15,17 @@ namespace zhabaMemeBot
 
         public bool WriteToLog(string line)
         {
+            string path = $"{Folder}/{DateTime.Now.ToString("dd-MM-yyyy")}.log";
+
             try
             {
-                using(FileStream fs = new FileStream($"{Folder}/{DateTime.Now.ToString("dd-MM-yyyy")}.log", FileMode.OpenOrCreate))
+                using(FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+                using(StreamWriter sw = new StreamWriter(path, true))
                 {
-                    byte[] a = System.Text.Encoding.ASCII.GetBytes(line);
-                    fs.Write(a, 0, a.Length);
-                    return true;
+                    sw.WriteLine(line);
                 }
+                return true;
+
             }
             catch(Exception e)
             {
