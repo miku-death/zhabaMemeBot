@@ -6,6 +6,8 @@ namespace zhabaMemeBot
 {
     class ToadMemer
     {
+        public static Logger logger{get;} = 
+            new Logger("logs");
         public static ITelegramBotClient Bot { get; } = 
             new TelegramBotClient(System.IO.File.ReadAllText("token"));
 
@@ -31,11 +33,11 @@ namespace zhabaMemeBot
 
                         using (Stream stream = System.IO.File.OpenRead(file.FullName))
                         {
-                            Console.WriteLine($"[{DateTime.Now.ToString("G")}] user {message.From} requested pic #{file.Name}");
+                            logger.WriteToLog($"[{DateTime.Now.ToString("G")}] user {message.From} requested pic #{file.Name}");
                             var Message = await botClient.SendPhotoAsync(
                                 chatId: message.Chat,
                                 photo: new Telegram.Bot.Types.InputFiles.InputOnlineFile(content: stream, fileName: file.FullName));
-                            Console.WriteLine($"[{DateTime.Now.ToString("G")}] user {message.From} was sent pic #{file.Name}");
+                            logger.WriteToLog($"[{DateTime.Now.ToString("G")}] user {message.From} was sent pic #{file.Name}");
                         }
                     }
                 }
@@ -44,7 +46,7 @@ namespace zhabaMemeBot
 
         public static async Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            Console.WriteLine(JsonConvert.SerializeObject(exception));
+            logger.WriteToLog(JsonConvert.SerializeObject(exception));
         }
     }
 }
