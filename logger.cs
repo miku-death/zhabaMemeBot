@@ -17,7 +17,7 @@ namespace zhabaMemeBot
         {
             try
             {
-                using(FileStream fs = new FileStream($"{Folder}/{DateTime.Now.ToShortDateString()}.log", FileMode.OpenOrCreate))
+                using(FileStream fs = new FileStream($"{Folder}/{DateTime.Now.ToString("dd-MM-yyyy")}.log", FileMode.OpenOrCreate))
                 {
                     byte[] a = System.Text.Encoding.ASCII.GetBytes(line);
                     fs.Write(a, 0, a.Length);
